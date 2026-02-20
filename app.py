@@ -7,6 +7,10 @@ app = Flask(__name__, static_folder="static")
 def home():
     return send_from_directory("static", "index.html")
 
+@app.get("/api/health")
+def health():
+    return {"status": "ok"}
+
 if __name__ == "__main__":
     # Render provides PORT as an environment variable
     port = int(os.environ.get("PORT", 10000))
