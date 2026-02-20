@@ -5,23 +5,147 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Course | Jim Education Platform</title>
   <style>
-    body{margin:0;font-family:system-ui,Arial;background:#0b0f19;color:#fff;padding:34px 18px;}
-    .container{width:min(980px,100%);margin:0 auto;}
-    .card{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);border-radius:18px;padding:18px;}
-    a{color:#a78bfa;text-decoration:none}
-    .muted{color:rgba(255,255,255,.7);line-height:1.6}
+    :root{
+      --bg:#0b0f19; --border:rgba(255,255,255,.12);
+      --text:rgba(255,255,255,.92); --muted:rgba(255,255,255,.72);
+      --accent:#7c3aed;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: radial-gradient(1200px 600px at 20% 10%, rgba(124,58,237,.35), transparent 60%),
+                  radial-gradient(900px 500px at 85% 20%, rgba(59,130,246,.20), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .wrap{min-height:100vh; padding:34px 18px;}
+    .container{width:min(980px,100%); margin:0 auto;}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      border:1px solid var(--border); background:rgba(0,0,0,.18);
+      border-radius:18px; padding:14px 16px;
+    }
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800;}
+    .logo{width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg,var(--accent),#3b82f6);}
+    nav a{color:var(--muted); text-decoration:none; margin-left:14px; font-size:.95rem;}
+    nav a:hover{color:var(--text)}
+    .card{
+      margin-top:18px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.05);
+      border-radius:22px;
+      padding:18px;
+    }
+    h1{margin:0 0 8px; font-size:clamp(1.6rem,3vw,2.2rem);}
+    p{margin:0; color:var(--muted); line-height:1.65; font-size:1.05rem;}
+    .meta{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 0;}
+    .pill{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:.92rem;
+      color:var(--muted);
+    }
+    .btn{
+      margin-top:16px;
+      display:inline-flex; align-items:center; gap:10px;
+      border:1px solid rgba(124,58,237,.55);
+      background: linear-gradient(135deg, rgba(124,58,237,.9), rgba(59,130,246,.75));
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:800;
+    }
+    .section{
+      margin-top:14px;
+      border-top:1px solid var(--border);
+      padding-top:14px;
+    }
+    .muted{color:var(--muted)}
+    .error{color:#fecaca}
+    code{background:rgba(0,0,0,.25); border:1px solid var(--border); padding:2px 6px; border-radius:8px;}
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <h1>Course Page (Coming Next)</h1>
-      <p class="muted">
-        This is the course detail page. Next we’ll load the course by slug, show modules/lessons,
-        and add “Start lesson” navigation.
-      </p>
-      <p><a href="/courses">← Back to Courses</a></p>
+  <div class="wrap">
+    <div class="container">
+      <header>
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>Jim Education Platform</div>
+        </div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/courses">Courses</a>
+          <a href="/api/health">API</a>
+        </nav>
+      </header>
+
+      <div class="card">
+        <div class="pill" id="crumb">Course</div>
+        <h1 id="title">Loading…</h1>
+        <p id="desc" class="muted">Fetching course details.</p>
+
+        <div class="meta" id="meta"></div>
+
+        <a class="btn" href="#" id="startBtn">Start →</a>
+
+        <div class="section">
+          <h3 style="margin:0 0 8px;">Modules (next)</h3>
+          <p class="muted">
+            Next we’ll add modules and lessons here. For now, this page proves the platform can route to
+            individual course pages using the course <code>slug</code>.
+          </p>
+        </div>
+
+        <div class="section">
+          <a href="/courses">← Back to Courses</a>
+        </div>
+      </div>
     </div>
   </div>
+
+  <script>
+    function pill(text){ return `<span class="pill">${text}</span>`; }
+
+    function slugFromPath(){
+      const parts = window.location.pathname.split("/").filter(Boolean);
+      return parts[1] || ""; // /course/<slug>
+    }
+
+    async function init(){
+      const slug = slugFromPath();
+      document.getElementById("crumb").textContent = `Course • ${slug}`;
+
+      const res = await fetch(`/api/courses/${slug}`);
+      if(!res.ok) throw new Error("Course not found");
+
+      const c = await res.json();
+
+      document.title = `${c.title} | Jim Education Platform`;
+      document.getElementById("title").textContent = c.title;
+      document.getElementById("desc").textContent = c.description;
+
+      const meta = [];
+      if (c.level) meta.push(pill(c.level));
+      if (c.time) meta.push(pill(c.time));
+      (c.tags || []).forEach(t => meta.push(pill(t)));
+      document.getElementById("meta").innerHTML = meta.join("");
+
+      // Start button will later jump to first lesson
+      document.getElementById("startBtn").href = "#";
+    }
+
+    init().catch(err => {
+      console.error(err);
+      document.getElementById("title").textContent = "Course not found";
+      document.getElementById("desc").innerHTML =
+        `<span class="error">That course slug doesn’t exist.</span> Try going back to <a href="/courses">Courses</a>.`;
+      document.getElementById("meta").innerHTML = "";
+      document.getElementById("startBtn").style.display = "none";
+    });
+  </script>
 </body>
 </html>
