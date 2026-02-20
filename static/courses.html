@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Courses | Jim Education Platform</title>
+  <style>
+    :root{
+      --bg:#0b0f19; --card:rgba(255,255,255,.06); --border:rgba(255,255,255,.12);
+      --text:rgba(255,255,255,.92); --muted:rgba(255,255,255,.72);
+      --accent:#7c3aed; --accent2:#22c55e;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: radial-gradient(1200px 600px at 20% 10%, rgba(124,58,237,.35), transparent 60%),
+                  radial-gradient(900px 500px at 85% 20%, rgba(34,197,94,.25), transparent 55%),
+                  radial-gradient(900px 500px at 50% 85%, rgba(59,130,246,.20), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .wrap{min-height:100vh; padding:34px 18px;}
+    .container{width:min(1080px,100%); margin:0 auto;}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      border:1px solid var(--border); background:rgba(0,0,0,.18); backdrop-filter: blur(10px);
+      border-radius:18px; padding:14px 16px;
+    }
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800;}
+    .logo{width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg,var(--accent),#3b82f6);}
+    nav a{color:var(--muted); text-decoration:none; margin-left:14px; font-size:.95rem;}
+    nav a:hover{color:var(--text)}
+    h1{margin:22px 0 6px; font-size:clamp(1.8rem,3vw,2.4rem);}
+    .sub{margin:0 0 18px; color:var(--muted); line-height:1.6; max-width:70ch;}
+    .strip{
+      display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin: 16px 0 22px;
+    }
+    @media(max-width:900px){ .strip{grid-template-columns:1fr 1fr;} }
+    @media(max-width:560px){ .strip{grid-template-columns:1fr;} }
+    .mini{
+      border:1px solid var(--border); background:rgba(255,255,255,.04); border-radius:16px; padding:14px;
+      color:var(--muted); line-height:1.5;
+    }
+    .mini b{color:var(--text)}
+    .featured{
+      border:1px solid rgba(124,58,237,.45);
+      background:linear-gradient(135deg, rgba(124,58,237,.22), rgba(59,130,246,.10));
+      border-radius:22px; padding:18px; margin: 10px 0 18px;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+    }
+    .featured h2{margin:0 0 6px; font-size:1.25rem;}
+    .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+    .pill{
+      border:1px solid var(--border); background:rgba(255,255,255,.04);
+      padding:7px 10px; border-radius:999px; font-size:.9rem; color:var(--muted);
+    }
+    .dot{display:inline-block; width:9px; height:9px; border-radius:50%; background:var(--accent2); margin-right:8px;}
+    .btn{
+      border:1px solid var(--border); background:rgba(255,255,255,.06); color:var(--text);
+      padding:11px 12px; border-radius:14px; text-decoration:none; font-weight:700; white-space:nowrap;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn.primary{
+      border-color: rgba(124,58,237,.55);
+      background: linear-gradient(135deg, rgba(124,58,237,.9), rgba(59,130,246,.75));
+    }
+    .grid{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:14px;
+    }
+    @media(max-width:980px){ .grid{grid-template-columns:1fr 1fr;} }
+    @media(max-width:620px){ .grid{grid-template-columns:1fr;} }
+    .card{
+      border:1px solid var(--border); background:rgba(255,255,255,.04); border-radius:18px; padding:16px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .card h3{margin:0; font-size:1.05rem;}
+    .card p{margin:0; color:var(--muted); line-height:1.55;}
+    .row{display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between;}
+    .tags{display:flex; flex-wrap:wrap; gap:8px;}
+    footer{
+      margin-top:22px; border-top:1px solid var(--border); padding:16px 4px; color:rgba(255,255,255,.55); font-size:.92rem;
+      display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    }
+    .status{color:rgba(255,255,255,.65)}
+    .muted{color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="container">
+      <header>
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>Jim Education Platform</div>
+        </div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/courses" style="color:var(--text); font-weight:700;">Courses</a>
+          <a href="/api/health">API</a>
+        </nav>
+      </header>
+
+      <h1>Courses</h1>
+      <p class="sub">
+        Self-paced engineering and technical courses with labs, checks for understanding, and real-world projects—
+        built for high school students and adult career changers.
+      </p>
+
+      <div class="strip">
+        <div class="mini"><b>Hands-on labs</b><br><span class="muted">Practical work you can show.</span></div>
+        <div class="mini"><b>Quick checks</b><br><span class="muted">Know you’re learning.</span></div>
+        <div class="mini"><b>Downloadables</b><br><span class="muted">Templates & resources.</span></div>
+        <div class="mini"><b>Progress</b><br><span class="muted">Tracking (coming soon).</span></div>
+      </div>
+
+      <div id="featured" class="featured" style="display:none;"></div>
+
+      <div class="row" style="margin: 8px 0 12px;">
+        <div class="status">Catalog</div>
+        <div class="muted" id="count"></div>
+      </div>
+
+      <div id="grid" class="grid"></div>
+
+      <footer>
+        <span>v0.1 • Deployed successfully</span>
+        <span class="muted">Next: course pages + lessons + Schoology import</span>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    function pill(text){ return `<span class="pill">${text}</span>`; }
+
+    function card(course){
+      const tags = (course.tags || []).map(t => pill(t)).join("");
+      return `
+        <div class="card">
+          <div class="row" style="gap:10px;">
+            <h3>${course.title}</h3>
+            <span class="pill">${course.level}${course.time ? " • " + course.time : ""}</span>
+          </div>
+          <p>${course.description}</p>
+          <div class="row">
+            <div class="tags">${tags}</div>
+            <a class="btn" href="/course/${course.slug}">View Course →</a>
+          </div>
+        </div>
+      `;
+    }
+
+    function featured(course){
+      const tags = (course.tags || []).slice(0,3).map(t => pill(t)).join("");
+      return `
+        <div>
+          <div class="pill"><span class="dot"></span>Start Here</div>
+          <h2 style="margin-top:10px;">${course.title}</h2>
+          <div class="muted" style="line-height:1.6;">${course.description}</div>
+          <div class="meta">${pill(course.level)}${course.time ? pill(course.time) : ""}${tags}</div>
+        </div>
+        <div>
+          <a class="btn primary" href="/course/${course.slug}">Start →</a>
+        </div>
+      `;
+    }
+
+    async function init(){
+      const res = await fetch("/api/courses");
+      const courses = await res.json();
+
+      const f = courses.find(c => c.featured) || courses[0];
+      const featuredEl = document.getElementById("featured");
+      featuredEl.innerHTML = featured(f);
+      featuredEl.style.display = "flex";
+
+      document.getElementById("count").textContent = `${courses.length} course${courses.length===1?"":"s"}`;
+
+      const grid = document.getElementById("grid");
+      grid.innerHTML = courses.map(card).join("");
+    }
+
+    init().catch(err => {
+      console.error(err);
+      document.getElementById("grid").innerHTML =
+        `<div class="card"><h3>Couldn’t load courses.</h3><p class="muted">Check /api/courses.</p></div>`;
+    });
+  </script>
+</body>
+</html>
